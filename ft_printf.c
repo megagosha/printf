@@ -6,7 +6,7 @@
 /*   By: edebi <edebi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 18:08:27 by edebi             #+#    #+#             */
-/*   Updated: 2020/11/12 16:56:36 by edebi            ###   ########.fr       */
+/*   Updated: 2020/11/12 19:40:42 by edebi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,31 +95,64 @@ static int		get_precision(char *str)
 	return (i);
 }
 
+static int		get_specifier(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_strchr(g_params->conversions, str[i]))
+	{
+		printf("SAD ERROR\n");
+		exit(0);
+	}
+	else
+		g_var->specifier = str[i];
+	return (1);
+}
+
+static void		print_var(void)
+{
+	if (g_var->specifier == 'c')
+		print_char();
+	else if (g_var->specifier == 's')
+		print_string();
+	else if (g_var->specifier == 'p')
+		print_pointer();
+	else if (g_var->specifier == 'd' || g_var->specifier == 'i')
+		print_decimal();
+	else if (g_var->specifier == 'u')
+		print_unsigned();
+	else if (g_var->specifier == 'x' || g_var->specifier == 'X')
+		print_hex();
+}
+
 static int		trim(char *str)
 {
 	int	i;
 
 	i = 0;
 
-	while (!ft_strchr(g_params->conversions, str[i]))
+	while (str[i])
 	{
-		i += set_flag(str);
-		i += get_width(str + i);
-		i += get_precision(str + i);
-		if (!ft_strchr(g_params->conversions, str[i]))
+		if (str[i] == '%' && str[i + 1] == '%')
 		{
-			printf("SAD ERROR\n");
-			exit(0);
+			i++;
+			write(1, "%", 1);
 		}
-		else
+		else if (str[i] == '%')
 		{
-			printf("%s\n", str + i);
+			i += set_flag(str);
+			i += get_width(str + i);
+			i += get_precision(str + i);
+			i += get_specifier(str + i);
+			print_var();
 		}
+		write(1, &str[i], 1);
+		i++;
 	}
-
 }
 
-static void		run()
+static void		run(void)
 {
 	int		i;
 	int		k;
