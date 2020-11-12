@@ -13,9 +13,9 @@ flags and combinations:
 
 . - precision specifier
 
-* - if specified value is contained in variable
+*  if specified value is contained in variable
 
-+	A sign must always be placed before a number produced by a signed conversion. A + overrides a\
++	A sign must always be placed before a number produced by a signed conversion. A + overrides a
 	space if both are used.
 
 minimum field width:
@@ -60,5 +60,15 @@ X	unsigned hexadimical capital
 %	A `%' is written.  No argument is converted.  The complete conversion specification is `%%'.
 
 
-RETURN value
+RETURN valuef
 Bytes printed excluding terminating null byte
+
+1. Count vars
+2. Loop through string, print every char if % encountered
+	2.1 Trim that part from %totypespecifier
+	2.3 Parse string
+	2.4 If * encountered, parse value from argument
+	2.5 Fill s_var struct
+	2.6 Print accordingly
+	2.7 continue from step 2
+	

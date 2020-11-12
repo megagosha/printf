@@ -6,7 +6,7 @@
 /*   By: edebi <edebi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 18:08:27 by edebi             #+#    #+#             */
-/*   Updated: 2020/11/11 19:50:58 by edebi            ###   ########.fr       */
+/*   Updated: 2020/11/12 16:56:36 by edebi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,46 +26,174 @@ static int	count_args(char *str)
 {
 	int	i;
 	int	k;
-	int	beg;
 
 	i = 0;
 	k = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '%')
-		{
-			beg = i;
-			while (str[i] == '%')
-				i++;
-			if ((i - beg) % 2 != 0)
-				k++;
-			i--;
-		}
+		if (str[i] == '%' && str[i + 1] == '%')
+			i++;
+		else if(str[i] == '%')
+			k++;
 		i++;
 	}
 	return (k);
 }
 
+static int		set_flag(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (ft_strchr(g_params->flags, str[i]))
+	{
+		if (str[i] == '*')
+			g_var->flag_star = 1;
+		else if (str[i] == '0')
+			g_var->flag_zero = 1;
+		else if (str[i] == '.')
+			g_var->flag_dot = 1;
+		else if (str[i] == '-')
+			g_var->flag_dot = 1;
+		i++;
+	}
+	return (i);
+}
+
+static int		get_width(char *str)
+{
+	int i;
+
+	i = 0;
+	if (str[i] == '*')
+	{
+		g_var->width = va_arg(g_params->list, int);
+		return (1);
+	}
+	while (str[i] != '\0' && ft_isdigit(str[i]))
+		i++;
+	g_var->width = ft_atoi(str);
+	return (i);
+}
+
+static int		get_precision(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] != '.')
+		return (0);
+	i++;
+	if (str[i] == '*')
+	{
+		g_var->precision = va_arg(g_params->list, int);
+		return (i + 1);
+	}
+	g_var->precision = ft_atoi(str + i);
+	while (str[i] != '\0' && ft_isdigit(str[i]))
+		i++;
+	return (i);
+}
+
+static int		trim(char *str)
+{
+	int	i;
+
+	i = 0;
+
+	while (!ft_strchr(g_params->conversions, str[i]))
+	{
+		i += set_flag(str);
+		i += get_width(str + i);
+		i += get_precision(str + i);
+		if (!ft_strchr(g_params->conversions, str[i]))
+		{
+			printf("SAD ERROR\n");
+			exit(0);
+		}
+		else
+		{
+			printf("%s\n", str + i);
+		}
+	}
+
+}
+
+static void		run()
+{
+	int		i;
+	int		k;
+	char	*str;
+
+	str = g_params->str;
+	i = 0;
+	k = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '%' && str[i + 1] == '%')
+			i++;
+		else if(str[i] == '%')
+		{
+			i += trim(str + i);
+			k++;
+		}
+		i++;
+	}
+}
+
+static void	init_var()
+{
+	if (g_var == NULL)
+		g_var = malloc(sizeof(t_var) + 1);
+	g_var->variable = NULL;
+	g_var->flag_zero = 0;
+	g_var->flag_minus = 0;
+	g_var->flag_dot = 0;
+	g_var->flag_star = 0;
+	g_var->width = 0;
+	g_var->precision = 0;
+	g_var->length = 0;
+	g_var->specifier = (char)0;
+	return ;
+}
+
+/* @todo Add malloc check for NULL */
+int			*init_params(char *c_str)
+{
+	g_params = malloc(sizeof(t_params) + 1);
+	ft_strlcpy(g_params->conversions, "cspdiuxX\0", 9);
+	ft_strlcpy(g_params->flags, "-0.*\0", 5);
+	init_var();
+	if (g_params == NULL)
+		return (-1);
+	g_params->n_args = count_args(c_str);
+	if (g_params->n_args == 0)
+		return (0);
+	g_params->str = c_str;
+	if (g_params->str == NULL)
+		return (-1);
+	return (1);
+}
+
 int			ft_printf(const char *str, ...)
 {
-	t_params	*params;
 	int			i;
 	char		*c_str;
+	int			j;
 
 	c_str = (char *)str;
-	params = malloc(sizeof(t_params) + 1);
-	i = 0;
-	va_start(params->list, c_str);
-	if (str)
-	{
-		params->n_args = count_args(c_str);
-		run(params);
-	}
-	va_end(params->list);
+	j = init_params(c_str);
+	if (j < 0)
+		return (0);
+	if (j == 0)
+		return (ft_putstr_printf(c_str));
+	va_start(g_params->list, str);
+	run();
+	va_end(g_params->list);
 	return (0);
 }
 
 int			main(void)
 {
-	ft_printf("%%He%l%%l%o%%", "hello1\n", "hello2\n");
+	ft_printf("%%%dsdfsd%dfsfasdf%sdfsd%%", "hello1\n", "hello2\n");
 }
