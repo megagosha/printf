@@ -6,7 +6,7 @@
 /*   By: edebi <edebi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 19:41:06 by edebi             #+#    #+#             */
-/*   Updated: 2020/11/12 20:01:57 by edebi            ###   ########.fr       */
+/*   Updated: 2020/11/13 21:19:34 by edebi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,73 @@
 
 void		print_char(void)
 {
-	//# no effect
-	//0 converted value padded on the left with zeros rather than blanks
+	char	*str;
+	char	c;
+	char	res[2];
 
+	c = va_arg(g_params->list, char);
+	res[0] = c;
+	res[1] = '\0';
+	str = check_width(res);
+	ft_putstr(str);
+	free(str);
 }
 
 void		print_string(void)
 {
-	//# no effect
-	//0 converted value padded on the left with zeros rather than blanks
+	char	*str;
 
+	str = va_arg(g_params->list, char*);
+	str = check_width(str);
+	ft_putstr(str);
+	free(str);
 }
 
 void		print_pointer(void)
 {
-	//# no effect
-	//0 flag ignored if precision is given.
+	char	*str;
+	void	*x;
 
+	x = va_arg(g_params->list, void*);
+	write(1, "0x", 2);
+	str = get_hex(&x);
+	str = check_width(str);
+	ft_putstr(str);
+	free(str);
 }
 
 void		print_decimal(void)
 {
-	//# no effect
-	//0 flag ignored if precision is given.
+	char			*str;
+	int	x;
 
+	x = va_arg(g_params->list, int);
+	str = ft_itoa(x);
+	str = check_width(str);
+	ft_putstr(str);
+	free(str);
 }
 
 void		print_unsigned(void)
 {
-	//# no effect
-	//0 flag ignored if precision is given.
+	char			*str;
+	int	x;
 
+	x = va_arg(g_params->list, unsigned int);
+	str = ft_itoa(x);
+	str = check_width(str);
+	ft_putstr(str);
+	free(str);
 }
 
 void		print_hex(void)
 {
-	//# adds Ox in begining. If value is zero no 0x is added
-	//0 Ignored if precision is given. converted value padded on the left with zeros rather than blanks/
+	unsigned int	x;
+	char			*str;
 
+	x = va_arg(g_params->list, unsigned int);
+	str = get_hex(x);
+	str = check_width(str);
+	ft_putstr(str);
+	free(str);
 }

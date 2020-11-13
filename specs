@@ -71,4 +71,15 @@ Bytes printed excluding terminating null byte
 	2.5 Fill s_var struct
 	2.6 Print accordingly
 	2.7 continue from step 2
-	
+
+
+calculate precision
+if precision > len_str
+	append leading zeroes;
+if width > len_str
+	append leading spaces
+if - flag is set
+	append trailing spaces
+
+
+
