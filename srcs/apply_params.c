@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check.c                                            :+:      :+:    :+:   */
+/*   apply_params.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edebi <edebi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 18:50:15 by edebi             #+#    #+#             */
-/*   Updated: 2020/11/13 20:49:31 by edebi            ###   ########.fr       */
+/*   Updated: 2020/11/14 17:05:22 by edebi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*check_width(char *str)
 	return (str);
 }
 
-int main(void)
+/* int main(void)
 {
 	char	*str;
 	size_t	str_len;
@@ -94,6 +94,8 @@ int main(void)
 	str = get_hex(1323232414);
 	str = check_width(str);
 	ft_putstr(str);
-/* 	printf("\n%.9x\n", 1323232414); */
+	printf("\n%.9x\n", 1323232414);
 	printf("\n%-10.9x\n", 1323232414);
 }
+ */
+

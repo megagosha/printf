@@ -6,7 +6,7 @@
 /*   By: edebi <edebi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 19:41:06 by edebi             #+#    #+#             */
-/*   Updated: 2020/11/13 21:19:34 by edebi            ###   ########.fr       */
+/*   Updated: 2020/11/14 18:04:10 by edebi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void		print_char(void)
 	char	c;
 	char	res[2];
 
-	c = va_arg(g_params->list, char);
+	c = (char)va_arg(g_params->list, int);
 	res[0] = c;
 	res[1] = '\0';
 	str = check_width(res);
 	ft_putstr(str);
-	free(str);
+	//free(str);
 }
 
 void		print_string(void)
@@ -34,20 +34,19 @@ void		print_string(void)
 	str = va_arg(g_params->list, char*);
 	str = check_width(str);
 	ft_putstr(str);
-	free(str);
 }
 
 void		print_pointer(void)
 {
-	char	*str;
-	void	*x;
+	char			*str;
+	unsigned long	x;
 
-	x = va_arg(g_params->list, void*);
+	x = va_arg(g_params->list, unsigned long);
 	write(1, "0x", 2);
-	str = get_hex(&x);
+	str = get_hex(x);
 	str = check_width(str);
 	ft_putstr(str);
-	free(str);
+	//free(str);
 }
 
 void		print_decimal(void)
@@ -59,7 +58,7 @@ void		print_decimal(void)
 	str = ft_itoa(x);
 	str = check_width(str);
 	ft_putstr(str);
-	free(str);
+	//free(str);
 }
 
 void		print_unsigned(void)
@@ -71,7 +70,7 @@ void		print_unsigned(void)
 	str = ft_itoa(x);
 	str = check_width(str);
 	ft_putstr(str);
-	free(str);
+	//free(str);
 }
 
 void		print_hex(void)
@@ -83,5 +82,5 @@ void		print_hex(void)
 	str = get_hex(x);
 	str = check_width(str);
 	ft_putstr(str);
-	free(str);
+	//free(str);
 }

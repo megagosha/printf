@@ -6,7 +6,7 @@
 /*   By: edebi <edebi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 18:08:27 by edebi             #+#    #+#             */
-/*   Updated: 2020/11/12 19:40:42 by edebi            ###   ########.fr       */
+/*   Updated: 2020/11/14 18:40:23 by edebi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,31 @@
 #include "libft.h"
 #include <stdio.h>
 
-static void	init(t_params *params)
+t_var		*g_var;
+t_params	*g_params;
+
+/* static void	init(t_params *params)
 {
 	printf("%s", va_arg(params->list, char*));
 	printf("%s", va_arg(params->list, char*));
 	printf("%s", va_arg(params->list, char*));
 
+} */
+
+static void	init_var(void)
+{
+	if (g_var == NULL)
+		g_var = malloc(sizeof(t_var) + 1);
+	g_var->variable = NULL;
+	g_var->flag_zero = 0;
+	g_var->flag_minus = 0;
+	g_var->flag_dot = 0;
+	g_var->flag_star = 0;
+	g_var->width = 0;
+	g_var->precision = 0;
+	g_var->length = 0;
+	g_var->specifier = (char)0;
+	return ;
 }
 
 static int	count_args(char *str)
@@ -45,7 +64,7 @@ static int		set_flag(char *str)
 	int	i;
 
 	i = 0;
-	while (ft_strchr(g_params->flags, str[i]))
+	while (ft_strchr((const char *)g_params->flags, str[i]))
 	{
 		if (str[i] == '*')
 			g_var->flag_star = 1;
@@ -54,7 +73,7 @@ static int		set_flag(char *str)
 		else if (str[i] == '.')
 			g_var->flag_dot = 1;
 		else if (str[i] == '-')
-			g_var->flag_dot = 1;
+			g_var->flag_minus = 1;
 		i++;
 	}
 	return (i);
@@ -94,14 +113,21 @@ static int		get_precision(char *str)
 		i++;
 	return (i);
 }
+void		print_global_debug(void)
+{
+	printf("Printing g_params struct: \nn_args %d\nstr: %s\nconversions %s\nflags %s\n", g_params->n_args, g_params->str, g_params->conversions, g_params->flags);
+	printf("\nPrinting g_var struct: \nvar %p\nflag_zero: %d\nflag_minus %d\nflag_dot %d\nflag_star %d\nwidth %d\nprecision %u\nlength int %d\nspecifier %c \n", g_var->variable, g_var->flag_zero, g_var->flag_minus, g_var->flag_dot, g_var->flag_star, g_var->width, g_var->precision, g_var->length, g_var->specifier);
+	return ;
+}
 
 static int		get_specifier(char *str)
 {
 	int	i;
 
 	i = 0;
-	if (!ft_strchr(g_params->conversions, str[i]))
+	if (!ft_strchr((const char *)g_params->conversions, str[i]))
 	{
+		print_global_debug();
 		printf("SAD ERROR\n");
 		exit(0);
 	}
@@ -141,7 +167,9 @@ static int		trim(char *str)
 		}
 		else if (str[i] == '%')
 		{
-			i += set_flag(str);
+			init_var();
+			i++;
+			i += set_flag(str + i);
 			i += get_width(str + i);
 			i += get_precision(str + i);
 			i += get_specifier(str + i);
@@ -150,50 +178,15 @@ static int		trim(char *str)
 		write(1, &str[i], 1);
 		i++;
 	}
-}
-
-static void		run(void)
-{
-	int		i;
-	int		k;
-	char	*str;
-
-	str = g_params->str;
-	i = 0;
-	k = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '%' && str[i + 1] == '%')
-			i++;
-		else if(str[i] == '%')
-		{
-			i += trim(str + i);
-			k++;
-		}
-		i++;
-	}
-}
-
-static void	init_var()
-{
-	if (g_var == NULL)
-		g_var = malloc(sizeof(t_var) + 1);
-	g_var->variable = NULL;
-	g_var->flag_zero = 0;
-	g_var->flag_minus = 0;
-	g_var->flag_dot = 0;
-	g_var->flag_star = 0;
-	g_var->width = 0;
-	g_var->precision = 0;
-	g_var->length = 0;
-	g_var->specifier = (char)0;
-	return ;
+	return (i);
 }
 
 /* @todo Add malloc check for NULL */
-int			*init_params(char *c_str)
+int			init_params(char *c_str)
 {
 	g_params = malloc(sizeof(t_params) + 1);
+	g_params->conversions = malloc(sizeof(char) * 9);
+	g_params->flags = malloc(sizeof(char) * 5);
 	ft_strlcpy(g_params->conversions, "cspdiuxX\0", 9);
 	ft_strlcpy(g_params->flags, "-0.*\0", 5);
 	init_var();
@@ -210,7 +203,6 @@ int			*init_params(char *c_str)
 
 int			ft_printf(const char *str, ...)
 {
-	int			i;
 	char		*c_str;
 	int			j;
 
@@ -219,14 +211,14 @@ int			ft_printf(const char *str, ...)
 	if (j < 0)
 		return (0);
 	if (j == 0)
-		return (ft_putstr_printf(c_str));
+		return (ft_putstr_count(c_str));
 	va_start(g_params->list, str);
-	run();
+	trim(g_params->str);
 	va_end(g_params->list);
 	return (0);
 }
 
-int			main(void)
+/* int			main(void)
 {
-	ft_printf("%%%dsdfsd%dfsfasdf%sdfsd%%", "hello1\n", "hello2\n");
-}
+	ft_printf("Hello %-10X\n", 234434);
+} */
