@@ -11,7 +11,7 @@ SRC_DIR = srcs/
 OBJ_DIR = obj/
 LIB_DIR = srcs/libft/
 
-CFILES = ft_printf.c ft_putnbr_base.c ft_putstr.c printer.c apply_params.c
+CFILES = ft_printf.c ft_putnbr_base.c ft_putstr.c printer.c apply_params.c ft_itoa_unsigned.c
 
 CFIND = $(CFILES:%=$(SRC_DIR)%)
 
@@ -36,3 +36,12 @@ $(OBJ): $(CFIND)
 $(OFILES):
 			@echo Compiled: $(@:obj/%=%)
 			@$(FLAGS) $(OBJ_DIR)$@ $(SRC_DIR)$(@:%.o=%.c)
+clean:
+				/bin/rm -rf $(OBJ_DIR)
+
+fclean:			clean
+				/bin/rm -f $(NAME)
+
+re: 			fclean all
+
+.PHONY:			all clean flcean re

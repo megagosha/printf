@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edebi <edebi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: edebi <edebi@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 20:04:07 by edebi             #+#    #+#             */
-/*   Updated: 2020/11/13 15:53:13 by edebi            ###   ########.fr       */
+/*   Updated: 2020/11/17 23:22:06 by edebi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ void	ft_putchar(char *dst, int n, char c)
 	dst[n] = c;
 }
 
-int		count_len(unsigned nb)
+int		count_len(unsigned long nb)
 {
 	int	i;
 
 	i = 0;
+	if (nb == 0)
+		return (1);
 	while (nb != 0)
 	{
 		nb /= 16;
@@ -35,12 +37,14 @@ int		count_len(unsigned nb)
 
 char	get_char(char *base, int n)
 {
-	if (g_var->specifier == 'x' && n > 10)
+	if (g_var->specifier == 'x' && n >= 10)
+		return (base[n] + 32);
+	if (g_var->specifier == 'p' && n >= 10)
 		return (base[n] + 32);
 	return (base[n]);
 }
 
-void	ft_putnbr_base(unsigned nb, char *dst, int i)
+void	ft_putnbr_base(unsigned long nb, char *dst, int i)
 {
 	if (nb >= 16)
 	{
@@ -51,7 +55,7 @@ void	ft_putnbr_base(unsigned nb, char *dst, int i)
 		ft_putchar(dst, i, get_char("0123456789ABCDEF", nb));
 }
 
-char	*get_hex(unsigned nb)
+char	*get_hex(unsigned long nb)
 {
 	int		len;
 	char	*str;

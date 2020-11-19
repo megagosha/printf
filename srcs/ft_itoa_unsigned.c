@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   ft_itoa_unsigned.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edebi <edebi@student.21-school.ru>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/19 21:58:51 by edebi             #+#    #+#             */
+/*   Updated: 2020/11/19 22:01:43 by edebi            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edebi <edebi@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 01:17:09 by edebi             #+#    #+#             */
-/*   Updated: 2020/11/19 21:58:27 by edebi            ###   ########.fr       */
+/*   Updated: 2020/11/17 23:29:04 by edebi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	count_len(int n)
+static unsigned	count_len(unsigned n)
 {
-	int	len;
+	unsigned	len;
 
 	if (n == 0)
 		return (1);
@@ -29,13 +41,13 @@ static int	count_len(int n)
 	return (len);
 }
 
-char		*ft_itoa(int n)
+char		*ft_itoa_unsigned(unsigned n)
 {
 	int				len;
 	char			*str;
-	unsigned int	nbr;
+	unsigned		nbr;
 
-	nbr = (n > 0) ? n : -n;
+	nbr = n;
 	len = count_len(n);
 	if (!(str = (char *)malloc(sizeof(char) * len + 1)))
 		return (NULL);
