@@ -11,7 +11,15 @@ SRC_DIR = srcs/
 OBJ_DIR = obj/
 LIB_DIR = srcs/libft/
 
-CFILES = ft_printf.c ft_putnbr_base.c ft_putstr.c printer.c apply_params.c ft_itoa_unsigned.c
+CFILES = ft_printf.c \
+		ft_putnbr_base.c \
+		ft_putstr.c \
+		printer.c \
+		apply_params.c \
+		ft_itoa_unsigned.c \
+		printer2.c \
+		parse.c \
+		mem.c
 
 CFIND = $(CFILES:%=$(SRC_DIR)%)
 

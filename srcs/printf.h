@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   printf.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edebi <edebi@student.21-school.ru>         +#+  +:+       +#+        */
+/*   By: edebi <edebi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 18:18:14 by edebi             #+#    #+#             */
-/*   Updated: 2020/11/20 01:42:59 by edebi            ###   ########.fr       */
+/*   Updated: 2020/11/20 22:00:00 by edebi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FTPRINTF_H
 # define FTPRINTF_H
 # include <stdarg.h>
-
+# include <stdio.h>
 typedef	struct	s_params
 {
 	va_list list;
@@ -21,10 +21,10 @@ typedef	struct	s_params
 	char	*conversions;
 	char	*flags;
 	int		return_val;
+	int		error;
 }				t_params;
 typedef struct	s_var
 {
-	void			*variable;
 	char			flag_zero;
 	char			flag_minus;
 	char			flag_dot;
@@ -50,4 +50,16 @@ char			*get_hex(unsigned long nb);
 char			*get_dec_precision(char *str);
 void			print_global_debug(void);
 char			*ft_itoa_unsigned(unsigned long n);
+int				ft_printf(const char *str, ...);
+int				init_params(char *c_str);
+void			init_var(void);
+int				set_flag(char *str);
+int				get_width(char *str);
+int				get_precision(char *str);
+int				get_specifier(char *str);
+void			print_var(void);
+void			print_hex(void);
+int				free_mem(void);
+void			print_end_char(char *str);
+int				check_global(void);
 #endif
