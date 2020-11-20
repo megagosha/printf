@@ -6,14 +6,14 @@
 /*   By: edebi <edebi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 18:18:14 by edebi             #+#    #+#             */
-/*   Updated: 2020/11/20 22:00:00 by edebi            ###   ########.fr       */
+/*   Updated: 2020/11/20 22:11:10 by edebi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FTPRINTF_H
 # define FTPRINTF_H
 # include <stdarg.h>
-# include <stdio.h>
+
 typedef	struct	s_params
 {
 	va_list list;

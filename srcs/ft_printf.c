@@ -6,7 +6,7 @@
 /*   By: edebi <edebi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 18:08:27 by edebi             #+#    #+#             */
-/*   Updated: 2020/11/20 21:46:28 by edebi            ###   ########.fr       */
+/*   Updated: 2020/11/20 22:10:46 by edebi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,4 @@ int				ft_printf(const char *str, ...)
 		va_end(g_params->list);
 	}
 	return (free_mem());
-//return (g_params->return_val);
 }

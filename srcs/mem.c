@@ -6,7 +6,7 @@
 /*   By: edebi <edebi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 17:59:48 by edebi             #+#    #+#             */
-/*   Updated: 2020/11/20 22:06:21 by edebi            ###   ########.fr       */
+/*   Updated: 2020/11/20 22:10:32 by edebi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void		init_var(void)
 
 int			free_mem(void)
 {
-	int	i = 0;
+	int	i;
 
 	i = g_params->return_val;
 	free(g_params->conversions);
