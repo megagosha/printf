@@ -45,11 +45,14 @@ $(OFILES):
 			@echo Compiled: $(@:obj/%=%)
 			@$(FLAGS) $(OBJ_DIR)$@ $(SRC_DIR)$(@:%.o=%.c)
 clean:
+				@make clean -C $(LIB_DIR)
 				/bin/rm -rf $(OBJ_DIR)
 
 fclean:			clean
+				@make fclean -C $(LIB_DIR)
 				/bin/rm -f $(NAME)
 
 re: 			fclean all
 
 .PHONY:			all clean flcean re
+
